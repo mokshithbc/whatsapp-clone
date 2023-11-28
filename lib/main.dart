@@ -18,10 +18,7 @@ class _WhatsappState extends State<Whatsapp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/',
-      routes: {
-        '/': (context) => HomePage(),
-        '/chat': (context) => const Chat()
-      },
+      routes: {'/': (context) => HomePage(), '/chat': (context) => Text()},
     );
   }
 }
