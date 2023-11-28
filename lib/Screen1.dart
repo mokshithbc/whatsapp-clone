@@ -1,98 +1,41 @@
 import 'package:flutter/material.dart';
 import 'constants.dart';
 
-class HomePage extends StatelessWidget {
+// ignore_for_file: prefer_const_constructors
+
+class HomePage extends StatefulWidget {
   const HomePage({
     super.key,
   });
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool showDropDown = false;
+
+  void toggleDropDown() {
+    setState(() {
+      showDropDown = !showDropDown;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Stack(
           children: [
-            Container(
-              color: const Color.fromRGBO(18, 140, 126, 1),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    children: <Widget>[
-                      const SizedBox(width: 15),
-                      const Text(
-                        'WhatsApp',
-                        style: TextStyle(
-                          fontSize: 25.0,
-                          fontFamily: "HelveticaNeu",
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.camera_alt_outlined,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.search,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.more_vert,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      IconButton(
-                        icon: const Icon(
-                          Icons.groups_2_rounded,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {},
-                      ),
-                      const SizedBox(
-                        width: 10.0,
-                      ),
-                      TextButton(
-                        child: const Text('Chats',
-                            style: TextStyle(color: Colors.white)),
-                        onPressed: () {},
-                      ),
-                      const SizedBox(
-                        width: 65.0,
-                      ),
-                      TextButton(
-                        child: const Text('Updates',
-                            style: TextStyle(color: Colors.white)),
-                        onPressed: () {},
-                      ),
-                      const SizedBox(
-                        width: 65.0,
-                      ),
-                      TextButton(
-                        child: const Text('Calls',
-                            style: TextStyle(color: Colors.white)),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Header(toggleDropDown: toggleDropDown),
+                Expanded(child: ChatList()),
+              ],
             ),
-            Expanded(child: ChatList())
+            if (showDropDown) DropDown(),
           ],
         ),
       ),
@@ -175,6 +118,149 @@ class ChatList extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class Header extends StatelessWidget {
+  Header({super.key, this.toggleDropDown});
+
+  Function? toggleDropDown;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: const Color.fromRGBO(18, 140, 126, 1),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: <Widget>[
+              const SizedBox(width: 15),
+              const Text(
+                'WhatsApp',
+                style: TextStyle(
+                  fontSize: 25.0,
+                  fontFamily: "HelveticaNeu",
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                ),
+              ),
+              const Spacer(),
+              IconButton(
+                icon: const Icon(
+                  Icons.camera_alt_outlined,
+                  color: Colors.white,
+                ),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.search,
+                  color: Colors.white,
+                ),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.more_vert,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  toggleDropDown!();
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              IconButton(
+                icon: const Icon(
+                  Icons.groups_2_rounded,
+                  color: Colors.white,
+                ),
+                onPressed: () {},
+              ),
+              const SizedBox(
+                width: 10.0,
+              ),
+              TextButton(
+                child:
+                    const Text('Chats', style: TextStyle(color: Colors.white)),
+                onPressed: () {},
+              ),
+              const SizedBox(
+                width: 65.0,
+              ),
+              TextButton(
+                child: const Text('Updates',
+                    style: TextStyle(color: Colors.white)),
+                onPressed: () {},
+              ),
+              const SizedBox(
+                width: 65.0,
+              ),
+              TextButton(
+                child:
+                    const Text('Calls', style: TextStyle(color: Colors.white)),
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DropDown extends StatelessWidget {
+  const DropDown({super.key});
+
+  Widget ddButtons(String text) {
+    return InkWell(
+      onTap: () {},
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      right: 5,
+      top: 50,
+      child: Material(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        elevation: 3,
+        child: Ink(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          width: 180,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 5),
+              ddButtons("New Group"),
+              ddButtons("New Broadcast"),
+              ddButtons("Linked Devices"),
+              ddButtons("Starred Messages"),
+              ddButtons("Payments"),
+              ddButtons("Settings"),
+              SizedBox(height: 5),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
