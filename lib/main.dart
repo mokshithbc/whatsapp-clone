@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'text.dart';
+import 'chatScreen.dart';
 import 'Screen1.dart';
 
 void main() {
@@ -18,7 +18,10 @@ class _WhatsappState extends State<Whatsapp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/',
-      routes: {'/': (context) => HomePage(), '/chat': (context) => Text()},
+      routes: {
+        '/': (context) => HomePage(),
+        '/chat': (context) => ChatScreen()
+      },
     );
   }
 }

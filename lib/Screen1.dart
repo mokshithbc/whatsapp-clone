@@ -71,11 +71,10 @@ class ChatList extends StatelessWidget {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/chat',
-                      arguments: contacts[index]['name'],
-                    );
+                    Navigator.pushNamed(context, '/chat', arguments: {
+                      'argName': contacts[index]['name'],
+                      'argStatus': contacts[index]['status'],
+                    });
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
