@@ -198,7 +198,7 @@ class DropDown extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
         right: 5,
-        top: 45,
+        top: 55,
         child: Material(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           elevation: 3,
@@ -224,15 +224,24 @@ class DropDown extends StatelessWidget {
                       toggleDropDown!(flag: 0);
                       toggleDropDown!(flag: 1);
                     },
-                    child: Row(
-                      children: <Widget>[
-                        dropDownButton('more'),
-                        Spacer(),
-                        Icon(Icons.arrow_right),
-                        SizedBox(
-                          width: 5,
-                        )
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: const <Widget>[
+                          Text(
+                            'more',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          Spacer(),
+                          Icon(Icons.arrow_right),
+                          SizedBox(
+                            width: 5,
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
