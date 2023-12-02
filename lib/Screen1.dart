@@ -77,6 +77,7 @@ class ChatList extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   onTap: () {
                     Navigator.pushNamed(context, '/chat', arguments: {
                       'argName': contacts[index]['name'],
