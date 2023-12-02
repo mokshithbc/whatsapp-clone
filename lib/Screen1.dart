@@ -15,10 +15,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool showDropDown = false;
 
-  void toggleDropDown() {
-    setState(() {
+  void toggleDropDown({required int flag}) {
+    if (flag == 0) {
       showDropDown = !showDropDown;
-    });
+    } else {
+      showDropDown = false;
+    }
+    setState(() {});
   }
 
   @override
@@ -36,6 +39,10 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             if (showDropDown) DropDown(),
+            if (showDropDown)
+              HoverScreen(
+                toggleDropDown: toggleDropDown,
+              )
           ],
         ),
       ),
@@ -166,7 +173,7 @@ class Header extends StatelessWidget {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  toggleDropDown!();
+                  toggleDropDown!(flag: 0);
                 },
               ),
             ],
@@ -257,6 +264,30 @@ class DropDown extends StatelessWidget {
               ddButtons("Settings"),
               SizedBox(height: 5),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class HoverScreen extends StatelessWidget {
+  HoverScreen({super.key, this.toggleDropDown});
+
+  Function? toggleDropDown;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      child: Material(
+        color: Color.fromRGBO(0, 0, 0, 0),
+        child: InkWell(
+          onTap: () {
+            toggleDropDown!(flag: 2);
+          },
+          child: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
           ),
         ),
       ),
