@@ -30,3 +30,5 @@ const List contacts = [
     'status': 'Online'
   }
 ];
+
+enum Flag { dropDownShow, moreDownShow, closeAll }

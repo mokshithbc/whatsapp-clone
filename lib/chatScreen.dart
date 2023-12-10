@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'constants.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -8,21 +9,12 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  bool isDropDown = false;
-  bool isMoreDown = false;
-  void toggleDropDown({required int flag}) {
-    if (flag == 0) {
-      if (isMoreDown) {
-        isMoreDown = false;
-        isDropDown = false;
-      } else {
-        isDropDown = !isDropDown;
-      }
-    } else if (flag == 1) {
-      isMoreDown = !isMoreDown;
+  Flag displayDropDown = Flag.closeAll;
+  void toggleDropDown({required Flag flag}) {
+    if (flag == Flag.dropDownShow && displayDropDown != Flag.closeAll) {
+      displayDropDown = Flag.closeAll;
     } else {
-      isMoreDown = false;
-      isDropDown = false;
+      displayDropDown = flag;
     }
     setState(() {});
   }
@@ -38,15 +30,15 @@ class _ChatScreenState extends State<ChatScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [Chat(toggleDropDown: toggleDropDown)],
             ),
-            if (isDropDown || isMoreDown)
+            if (displayDropDown != Flag.closeAll)
               HoverScreen(
                 toggleDropDown: toggleDropDown,
               ),
-            if (isDropDown)
+            if (displayDropDown == Flag.dropDownShow)
               DropDown(
                 toggleDropDown: toggleDropDown,
               ),
-            if (isMoreDown) MoreButton(),
+            if (displayDropDown == Flag.moreDownShow) MoreButton(),
           ],
         ),
       ),
@@ -65,8 +57,11 @@ class HoverScreen extends StatelessWidget {
       child: Material(
         color: Color.fromRGBO(0, 0, 0, 0),
         child: InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          splashFactory: NoSplash.splashFactory,
           onTap: () {
-            toggleDropDown!(flag: 2);
+            toggleDropDown!(flag: Flag.closeAll);
           },
           child: SizedBox(
             width: double.infinity,
@@ -158,7 +153,7 @@ class _ChatState extends State<Chat> {
           ),
           IconButton(
             onPressed: () {
-              widget.toggleDropDown!(flag: 0);
+              widget.toggleDropDown!(flag: Flag.dropDownShow);
             },
             icon: const Icon(
               Icons.more_vert,
@@ -221,8 +216,7 @@ class DropDown extends StatelessWidget {
                 Material(
                   child: InkWell(
                     onTap: () {
-                      toggleDropDown!(flag: 0);
-                      toggleDropDown!(flag: 1);
+                      toggleDropDown!(flag: Flag.moreDownShow);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -276,11 +270,11 @@ class MoreButton extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(height: 5),
-                dropDownButton!('Report'),
-                dropDownButton!('Block'),
-                dropDownButton!('Clear chat'),
-                dropDownButton!('Export chat'),
-                dropDownButton!('Add shortcut'),
+                dropDownButton('Report'),
+                dropDownButton('Block'),
+                dropDownButton('Clear chat'),
+                dropDownButton('Export chat'),
+                dropDownButton('Add shortcut'),
                 SizedBox(height: 5)
               ],
             ),
