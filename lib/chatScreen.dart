@@ -166,9 +166,10 @@ class _ChatState extends State<Chat> {
   }
 }
 
-Widget dropDownButton(String input) {
+Widget dropDownButton({required String input, int flag = 0}) {
+  var onTapCallBack = flag == 0 ? () {} : null;
   return InkWell(
-    onTap: () {},
+    onTap: onTapCallBack,
     child: Padding(
       padding: EdgeInsets.all(10.0),
       child: Text(
@@ -207,36 +208,26 @@ class DropDown extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(height: 5),
-                dropDownButton('View contact'),
-                dropDownButton('Media,Links,and docs'),
-                dropDownButton('search'),
-                dropDownButton('Mute notifications'),
-                dropDownButton('Disappearing messages'),
-                dropDownButton('wallpaper'),
-                Material(
-                  child: InkWell(
-                    onTap: () {
-                      toggleDropDown!(flag: Flag.moreDownShow);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: const <Widget>[
-                          Text(
-                            'more',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          Spacer(),
-                          Icon(Icons.arrow_right),
-                          SizedBox(
-                            width: 5,
-                          )
-                        ],
-                      ),
-                    ),
+                dropDownButton(input: 'View contact'),
+                dropDownButton(input: 'Media,Links,and docs'),
+                dropDownButton(input: 'search'),
+                dropDownButton(input: 'Mute notifications'),
+                dropDownButton(input: 'Disappearing messages'),
+                dropDownButton(input: 'wallpaper'),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    toggleDropDown!(flag: Flag.moreDownShow);
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      dropDownButton(input: 'more', flag: 1),
+                      Spacer(),
+                      Icon(Icons.arrow_right),
+                      SizedBox(
+                        width: 5,
+                      )
+                    ],
                   ),
                 ),
                 SizedBox(height: 5)
@@ -270,11 +261,11 @@ class MoreButton extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(height: 5),
-                dropDownButton('Report'),
-                dropDownButton('Block'),
-                dropDownButton('Clear chat'),
-                dropDownButton('Export chat'),
-                dropDownButton('Add shortcut'),
+                dropDownButton(input: 'Report'),
+                dropDownButton(input: 'Block'),
+                dropDownButton(input: 'Clear chat'),
+                dropDownButton(input: 'Export chat'),
+                dropDownButton(input: 'Add shortcut'),
                 SizedBox(height: 5)
               ],
             ),

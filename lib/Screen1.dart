@@ -13,13 +13,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool showDropDown = false;
+  Flag displayDropDown = Flag.closeAll;
 
-  void toggleDropDown({required int flag}) {
-    if (flag == 0) {
-      showDropDown = !showDropDown;
+  void toggleDropDown({required Flag flag}) {
+    if (flag == Flag.dropDownShow) {
+      displayDropDown = flag;
     } else {
-      showDropDown = false;
+      displayDropDown = Flag.closeAll;
     }
     setState(() {});
   }
@@ -38,11 +38,11 @@ class _HomePageState extends State<HomePage> {
                 Expanded(child: ChatList()),
               ],
             ),
-            if (showDropDown) DropDown(),
-            if (showDropDown)
+            if (displayDropDown == Flag.dropDownShow)
               HoverScreen(
                 toggleDropDown: toggleDropDown,
-              )
+              ),
+            if (displayDropDown != Flag.closeAll) DropDown()
           ],
         ),
       ),
@@ -174,7 +174,7 @@ class Header extends StatelessWidget {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  toggleDropDown!(flag: 0);
+                  toggleDropDown!(flag: Flag.dropDownShow);
                 },
               ),
             ],
@@ -227,7 +227,7 @@ class DropDown extends StatelessWidget {
     return InkWell(
       onTap: () {},
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: EdgeInsets.all(15.0),
         child: Text(
           text,
           style: TextStyle(
@@ -283,8 +283,11 @@ class HoverScreen extends StatelessWidget {
       child: Material(
         color: Color.fromRGBO(0, 0, 0, 0),
         child: InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          splashFactory: NoSplash.splashFactory,
           onTap: () {
-            toggleDropDown!(flag: 2);
+            toggleDropDown!(flag: Flag.closeAll);
           },
           child: SizedBox(
             width: double.infinity,
