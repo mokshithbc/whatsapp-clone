@@ -48,10 +48,36 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Header(toggleDropDown: toggleDropDown),
                 Expanded(
-                    child: ChatList(
-                  toggleProfilePic: toggleProfilePic,
-                )),
+                  child: ChatList(
+                    toggleProfilePic: toggleProfilePic,
+                  ),
+                ),
               ],
+            ),
+            Positioned(
+              bottom: 16.0,
+              right: 16.0,
+              child: Material(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/newMessage');
+                  },
+                  child: Ink(
+                    decoration: BoxDecoration(
+                        color: Color.fromRGBO(18, 140, 126, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    width: 60,
+                    height: 60,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.message,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
             if (displayProfilePic == Flag.viewProfile) BlackTranslucent(),
             if (displayDropDown == Flag.dropDownShow ||
