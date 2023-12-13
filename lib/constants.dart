@@ -31,4 +31,9 @@ const List contacts = [
   }
 ];
 
-enum Flag { dropDownShow, moreDownShow, closeAll }
+enum Flag {
+  dropDownShow,
+  moreDownShow,
+  closeAll,
+  viewProfile,
+}

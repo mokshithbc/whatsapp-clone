@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'constants.dart';
-
+import 'viewProfilePic.dart';
 // ignore_for_file: prefer_const_constructors
 
 class HomePage extends StatefulWidget {
@@ -14,6 +14,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Flag displayDropDown = Flag.closeAll;
+  Flag displayProfilePic = Flag.closeAll;
+  String profilePicArgs = '';
+
+  void toggleProfilePic({required Flag flag, required String arg}) {
+    if (flag == Flag.viewProfile) {
+      displayProfilePic = flag;
+      profilePicArgs = arg;
+    } else {
+      displayProfilePic = Flag.closeAll;
+    }
+    setState(() {});
+  }
 
   void toggleDropDown({required Flag flag}) {
     if (flag == Flag.dropDownShow) {
@@ -35,14 +47,22 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Header(toggleDropDown: toggleDropDown),
-                Expanded(child: ChatList()),
+                Expanded(
+                    child: ChatList(
+                  toggleProfilePic: toggleProfilePic,
+                )),
               ],
             ),
-            if (displayDropDown == Flag.dropDownShow)
+            if (displayProfilePic == Flag.viewProfile) BlackTranslucent(),
+            if (displayDropDown == Flag.dropDownShow ||
+                displayProfilePic == Flag.viewProfile)
               HoverScreen(
                 toggleDropDown: toggleDropDown,
+                toggleProfilePic: toggleProfilePic,
               ),
-            if (displayDropDown != Flag.closeAll) DropDown()
+            if (displayDropDown != Flag.closeAll) DropDown(),
+            if (displayProfilePic == Flag.viewProfile)
+              ProfilePic(names: profilePicArgs),
           ],
         ),
       ),
@@ -51,7 +71,9 @@ class _HomePageState extends State<HomePage> {
 }
 
 class ChatList extends StatelessWidget {
-  const ChatList({super.key});
+  ChatList({super.key, this.toggleProfilePic});
+
+  Function? toggleProfilePic;
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +90,17 @@ class ChatList extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               GestureDetector(
-                onTap: () {},
-                child: CircleAvatar(
-                  radius: 30.0,
-                  child: Image.asset('images/profilepic.jpg'),
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  toggleProfilePic!(
+                      flag: Flag.viewProfile, arg: contacts[index]['name']);
+                },
+                child: Hero(
+                  tag: 'profile_${contacts[index]['name']}',
+                  child: CircleAvatar(
+                    radius: 30.0,
+                    child: Image.asset('images/profilepic.jpg'),
+                  ),
                 ),
               ),
               const SizedBox(width: 10),
@@ -81,7 +110,7 @@ class ChatList extends StatelessWidget {
                   onTap: () {
                     Navigator.pushNamed(context, '/chat', arguments: {
                       'argName': contacts[index]['name'],
-                      'argStatus': contacts[index]['status'],
+                      'argStatus': contacts[index]['status']
                     });
                   },
                   child: Row(
@@ -273,9 +302,9 @@ class DropDown extends StatelessWidget {
 }
 
 class HoverScreen extends StatelessWidget {
-  HoverScreen({super.key, this.toggleDropDown});
+  HoverScreen({super.key, this.toggleDropDown, this.toggleProfilePic});
 
-  Function? toggleDropDown;
+  Function? toggleDropDown, toggleProfilePic;
 
   @override
   Widget build(BuildContext context) {
@@ -288,7 +317,30 @@ class HoverScreen extends StatelessWidget {
           splashFactory: NoSplash.splashFactory,
           onTap: () {
             toggleDropDown!(flag: Flag.closeAll);
+            toggleProfilePic!(flag: Flag.closeAll, arg: '');
           },
+          child: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class BlackTranslucent extends StatelessWidget {
+  const BlackTranslucent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      child: Material(
+        color: Colors.black12.withOpacity(0.3),
+        child: InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          splashFactory: NoSplash.splashFactory,
           child: SizedBox(
             width: double.infinity,
             height: double.infinity,

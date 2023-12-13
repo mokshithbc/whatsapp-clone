@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'chatScreen.dart';
 import 'Screen1.dart';
+import 'enlargeProfilePic.dart';
 
 void main() {
   runApp(const Whatsapp());
@@ -20,7 +21,8 @@ class _WhatsappState extends State<Whatsapp> {
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
-        '/chat': (context) => ChatScreen()
+        '/chat': (context) => ChatScreen(),
+        '/enlargedProfile': (context) => EnlargeProfile()
       },
     );
   }
