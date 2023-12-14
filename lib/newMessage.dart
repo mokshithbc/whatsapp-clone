@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'constants.dart';
 
 class NewMessage extends StatelessWidget {
   const NewMessage({super.key});
@@ -32,17 +33,17 @@ class NewMessage extends StatelessWidget {
                         'Select contact',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 15,
+                          fontSize: 17,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(2.0),
+                        padding: EdgeInsets.all(4.0),
                         child: Text(
                           '120 contacts',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 10,
+                            fontSize: 12,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -188,10 +189,80 @@ class NewMessage extends StatelessWidget {
                 'Contacts on WhatsApp',
                 style: TextStyle(color: Colors.grey.shade700),
               ),
-            )
+            ),
+            ContactsList(),
           ],
         ),
       ),
     );
+  }
+}
+
+class ContactsList extends StatelessWidget {
+  const ContactsList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: contacts.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: 10,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {},
+                  child: CircleAvatar(
+                    radius: 20,
+                    child: Image.asset('images/profilepic.jpg'),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {},
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: 2.0, right: 2.0, bottom: 2.0),
+                              child: Text(
+                                contacts[index]['name'],
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              contacts[index]['bio'],
+                              style: TextStyle(
+                                color: Colors.grey.shade700,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        });
   }
 }

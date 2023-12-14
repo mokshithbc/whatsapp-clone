@@ -96,94 +96,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class ChatList extends StatelessWidget {
-  ChatList({super.key, this.toggleProfilePic});
-
-  Function? toggleProfilePic;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: contacts.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 10,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  toggleProfilePic!(
-                      flag: Flag.viewProfile, arg: contacts[index]['name']);
-                },
-                child: Hero(
-                  tag: 'profile_${contacts[index]['name']}',
-                  child: CircleAvatar(
-                    radius: 30.0,
-                    child: Image.asset('images/profilepic.jpg'),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    Navigator.pushNamed(context, '/chat', arguments: {
-                      'argName': contacts[index]['name'],
-                      'argStatus': contacts[index]['status']
-                    });
-                  },
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 0.0, top: 2.0, right: 2.0, bottom: 2.0),
-                            child: Text(
-                              contacts[index]['name'],
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                          Text(contacts[index]['message'])
-                        ],
-                      ),
-                      Spacer(),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          Text(
-                            contacts[index]['time'],
-                            style: TextStyle(fontSize: 13),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(right: 10),
-                            child: Icon(Icons.volume_mute_rounded),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-}
-
 class Header extends StatelessWidget {
   Header({super.key, this.toggleDropDown});
 
@@ -271,6 +183,101 @@ class Header extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class ChatList extends StatelessWidget {
+  ChatList({super.key, this.toggleProfilePic});
+
+  Function? toggleProfilePic;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: contacts.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 10,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  toggleProfilePic!(
+                      flag: Flag.viewProfile, arg: contacts[index]['name']);
+                },
+                child: Hero(
+                  tag: 'profile_${contacts[index]['name']}',
+                  child: CircleAvatar(
+                    radius: 30.0,
+                    child: Image.asset('images/profilepic.jpg'),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    Navigator.pushNamed(context, '/chat', arguments: {
+                      'argName': contacts[index]['name'],
+                      'argStatus': contacts[index]['status']
+                    });
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 0.0, top: 2.0, right: 2.0, bottom: 2.0),
+                            child: Text(
+                              contacts[index]['name'],
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            contacts[index]['message'],
+                            style: TextStyle(
+                              color: Colors.grey.shade700,
+                            ),
+                          )
+                        ],
+                      ),
+                      Spacer(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Text(
+                            contacts[index]['time'],
+                            style: TextStyle(fontSize: 13),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(right: 10),
+                            child: Icon(Icons.volume_mute_rounded),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
