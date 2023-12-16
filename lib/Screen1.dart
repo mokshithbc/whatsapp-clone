@@ -88,7 +88,10 @@ class _HomePageState extends State<HomePage> {
               ),
             if (displayDropDown != Flag.closeAll) DropDown(),
             if (displayProfilePic == Flag.viewProfile)
-              ProfilePic(names: profilePicArgs),
+              ProfilePic(
+                names: profilePicArgs,
+                isNewMessage: false,
+              ),
           ],
         ),
       ),

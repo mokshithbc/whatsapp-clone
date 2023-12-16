@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 
 class ProfilePic extends StatelessWidget {
-  ProfilePic({super.key, required this.names});
+  ProfilePic({super.key, required this.names, required this.isNewMessage});
   String names;
+  bool isNewMessage;
+
   @override
   Widget build(BuildContext context) {
     int index = contacts.indexWhere((contact) => contact['name'] == names);
@@ -54,34 +56,39 @@ class ProfilePic extends StatelessWidget {
                   width: 10,
                 ),
                 IconButton(
-                    onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        '/chat',
-                        arguments: {
-                          'argName': names,
-                          'argStatus': contacts[index]['status'],
-                        },
-                      );
-                    },
-                    icon: Icon(
-                      Icons.message,
-                      color: Color.fromRGBO(18, 140, 126, 1),
-                    )),
-                Spacer(),
-                IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/chat',
+                      arguments: {
+                        'argName': names,
+                        'argStatus': contacts[index]['status'],
+                      },
+                    );
+                  },
+                  icon: Icon(
+                    Icons.message,
+                    color: Color.fromRGBO(18, 140, 126, 1),
+                  ),
+                ),
+                if (!isNewMessage) Spacer(),
+                if (!isNewMessage)
+                  IconButton(
                     onPressed: () {},
                     icon: Icon(
                       Icons.call_rounded,
                       color: Color.fromRGBO(18, 140, 126, 1),
-                    )),
-                Spacer(),
-                IconButton(
+                    ),
+                  ),
+                if (!isNewMessage) Spacer(),
+                if (!isNewMessage)
+                  IconButton(
                     onPressed: () {},
                     icon: Icon(
                       Icons.videocam_rounded,
                       color: Color.fromRGBO(18, 140, 126, 1),
-                    )),
+                    ),
+                  ),
                 Spacer(),
                 IconButton(
                     onPressed: () {},
