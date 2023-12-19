@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled1/newMessage.dart';
+import 'package:untitled1/viewProfile.dart';
 import 'chatScreen.dart';
 import 'Screen1.dart';
 import 'enlargeProfilePic.dart';
@@ -24,7 +25,8 @@ class _WhatsappState extends State<Whatsapp> {
         '/': (context) => HomePage(),
         '/chat': (context) => ChatScreen(),
         '/enlargedProfile': (context) => EnlargeProfile(),
-        '/newMessage': (context) => NewMessage()
+        '/newMessage': (context) => NewMessage(),
+        '/viewProfile': (context) => ViewProfile()
       },
     );
   }

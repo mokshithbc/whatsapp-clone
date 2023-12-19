@@ -10,6 +10,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   Flag displayDropDown = Flag.closeAll;
+
   void toggleDropDown({required Flag flag}) {
     if (flag == Flag.dropDownShow && displayDropDown != Flag.closeAll) {
       displayDropDown = Flag.closeAll;
@@ -75,6 +76,7 @@ class HoverScreen extends StatelessWidget {
 
 class Chat extends StatefulWidget {
   Chat({super.key, this.toggleDropDown});
+
   Function? toggleDropDown;
 
   @override
@@ -86,8 +88,13 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
     final Map<String, dynamic> args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final String name = args['argName'];
-    final String status = args['argStatus'];
+
+    String name = args['argName'];
+
+    String status = args['argStatus'];
+
+    int index = contacts.indexWhere((contact) => contact['name'] == name);
+
     return Container(
       color: const Color.fromRGBO(18, 140, 126, 1),
       child: Row(
@@ -112,7 +119,14 @@ class _ChatState extends State<Chat> {
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              print(index);
+              Navigator.pushNamed(
+                context,
+                '/viewProfile',
+                arguments: index,
+              );
+            },
             child: Row(children: <Widget>[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,6 +202,7 @@ class DropDown extends StatelessWidget {
     super.key,
     this.toggleDropDown,
   });
+
   Function? toggleDropDown;
 
   @override

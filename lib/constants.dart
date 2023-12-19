@@ -1,5 +1,6 @@
 class UserInfo {
   final String name;
+
   UserInfo(this.name);
 }
 
@@ -10,6 +11,8 @@ const List contacts = [
     'time': '10:30 pm',
     'status': 'Online',
     'bio': 'abjjkjk',
+    'bioDate': '1 January',
+    'number': '+91 12345 67890'
   },
   {
     'name': 'Piggy',
@@ -17,6 +20,8 @@ const List contacts = [
     'time': '7:00 pm',
     'status': 'last seen today 8:45 pm',
     'bio': 'abjjkjk',
+    'bioDate': '1 January',
+    'number': '+91 12345 67890'
   },
   {
     'name': 'Devendra',
@@ -24,6 +29,8 @@ const List contacts = [
     'time': '7:15 pm',
     'status': 'Typing',
     'bio': 'abjjkjk',
+    'bioDate': '1 January',
+    'number': '+91 12345 67890'
   },
   {
     'name': 'Rishi',
@@ -31,6 +38,8 @@ const List contacts = [
     'time': '6:10 pm',
     'status': 'Online',
     'bio': 'abjjkjk',
+    'bioDate': '1 January',
+    'number': '+91 12345 67890'
   },
   {
     'name': 'ppds',
@@ -38,6 +47,8 @@ const List contacts = [
     'time': '11:00 pm',
     'status': 'Online',
     'bio': 'abjjkjk',
+    'bioDate': '1 January',
+    'number': '+91 12345 67890'
   }
 ];
 
