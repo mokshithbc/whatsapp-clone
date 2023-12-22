@@ -4,6 +4,8 @@ import 'package:untitled1/viewProfile.dart';
 import 'chatScreen.dart';
 import 'Screen1.dart';
 import 'enlargeProfilePic.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() {
   runApp(const Whatsapp());
