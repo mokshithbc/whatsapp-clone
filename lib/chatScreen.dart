@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'constants.dart';
+import 'Chats.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -23,10 +24,18 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
       body: SafeArea(
         child: Stack(
           children: [
+            Image.network(
+              'https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png',
+              fit: BoxFit.fitHeight,
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+            ),
+            ChatList1(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [Chat(toggleDropDown: toggleDropDown)],

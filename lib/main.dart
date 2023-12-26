@@ -4,6 +4,7 @@ import 'package:untitled1/viewProfile.dart';
 import 'chatScreen.dart';
 import 'Screen1.dart';
 import 'enlargeProfilePic.dart';
+import 'Chats.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -28,7 +29,7 @@ class _WhatsappState extends State<Whatsapp> {
         '/chat': (context) => ChatScreen(),
         '/enlargedProfile': (context) => EnlargeProfile(),
         '/newMessage': (context) => NewMessage(),
-        '/viewProfile': (context) => ViewProfile()
+        '/viewProfile': (context) => ViewProfile(),
       },
     );
   }
