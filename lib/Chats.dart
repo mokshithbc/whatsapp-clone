@@ -1,5 +1,6 @@
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 class ChatList1 extends StatefulWidget {
   const ChatList1({super.key});
@@ -11,10 +12,10 @@ class ChatList1 extends StatefulWidget {
 class _ChatList1State extends State<ChatList1> {
   bool showEmoji = false;
   FocusNode focusNode = FocusNode();
+  final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     focusNode.addListener(() {
       if (focusNode.hasFocus && showEmoji) {
@@ -27,12 +28,18 @@ class _ChatList1State extends State<ChatList1> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
+    return PopScope(
+      canPop: !showEmoji,
+      onPopInvoked: (didPop) {
+        if (!didPop) {
+          showEmoji = false;
+          setState(() {});
+        }
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Padding(
             padding: const EdgeInsets.all(4.0),
             child: Row(
               children: [
@@ -44,6 +51,10 @@ class _ChatList1State extends State<ChatList1> {
                     ),
                     margin: EdgeInsets.only(left: 2, right: 5, bottom: 5),
                     child: TextFormField(
+                      onChanged: (text) {
+                        setState(() {});
+                      },
+                      controller: _controller,
                       focusNode: focusNode,
                       keyboardType: TextInputType.multiline,
                       maxLines: 6,
@@ -52,69 +63,8 @@ class _ChatList1State extends State<ChatList1> {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: "Message",
-                        prefixIcon: IconButton(
-                          icon: Icon(
-                            (showEmoji == false)
-                                ? Icons.emoji_emotions_outlined
-                                : Icons.keyboard,
-                            color: Colors.black.withOpacity(.5),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              showEmoji = !showEmoji;
-                              if (showEmoji) {
-                                focusNode.unfocus();
-                              } else {
-                                focusNode.requestFocus();
-                              }
-                            });
-                          },
-                        ),
-                        suffixIcon: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.attach_file,
-                                color: Colors.black.withOpacity(.5),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              width: 25,
-                              height: 25,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.black.withOpacity(.5),
-                              ),
-                              child: IconButton(
-                                padding: EdgeInsets.zero,
-                                icon: Icon(
-                                  Icons.currency_rupee,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                                onPressed: () {},
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.camera_alt,
-                                color: Colors.black.withOpacity(.5),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            )
-                          ],
-                        ),
+                        prefixIcon: prefixIcon(),
+                        suffixIcon: suffixIcon(),
                         contentPadding: EdgeInsets.all(5),
                       ),
                     ),
@@ -127,7 +77,7 @@ class _ChatList1State extends State<ChatList1> {
                     radius: 25,
                     child: IconButton(
                       icon: Icon(
-                        Icons.mic,
+                        (_controller.text.isEmpty) ? Icons.mic : Icons.send,
                         color: Colors.white,
                       ),
                       onPressed: () {},
@@ -137,21 +87,109 @@ class _ChatList1State extends State<ChatList1> {
               ],
             ),
           ),
+          if (focusNode.hasFocus)
+            Container(
+              alignment: Alignment.bottomCenter,
+              color: Colors.white,
+              height: 310,
+            ),
+          if (showEmoji) emojiSelect(),
+        ],
+      ),
+    );
+  }
+
+  Widget prefixIcon() {
+    return IconButton(
+      icon: Icon(
+        (showEmoji == false) ? Icons.emoji_emotions_outlined : Icons.keyboard,
+        color: Colors.black.withOpacity(.5),
+      ),
+      onPressed: () {
+        if (showEmoji) {
+          showEmoji = false;
+          setState(() {});
+
+          focusNode.requestFocus();
+        } else {
+          focusNode.unfocus();
+          showEmoji = true;
+          setState(() {});
+        }
+      },
+    );
+  }
+
+  Widget suffixIcon() {
+    if (_controller.text.isNotEmpty) {
+      return IconButton(
+        onPressed: () {},
+        icon: Icon(
+          Icons.attach_file,
+          color: Colors.black.withOpacity(.5),
         ),
-        if (showEmoji) emojiSelect(),
+      );
+    }
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.attach_file,
+            color: Colors.black.withOpacity(.5),
+          ),
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        Container(
+          width: 25,
+          height: 25,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.black.withOpacity(.5),
+          ),
+          child: IconButton(
+            padding: EdgeInsets.zero,
+            icon: Icon(
+              Icons.currency_rupee,
+              color: Colors.white,
+              size: 15,
+            ),
+            onPressed: () {},
+          ),
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.camera_alt,
+            color: Colors.black.withOpacity(.5),
+          ),
+        ),
+        SizedBox(
+          width: 10,
+        )
       ],
     );
   }
 
   Widget emojiSelect() {
     return SizedBox(
-      height: 300,
+      height: 310,
       child: EmojiPicker(
         config: Config(
           columns: 7,
         ),
-        onEmojiSelected: (emoji, category) {
-          print(emoji);
+        textEditingController: _controller,
+        onBackspacePressed: () {
+          if (_controller.text.isNotEmpty) {
+            _controller.text =
+                _controller.text.characters.skipLast(1) as String;
+          }
         },
       ),
     );

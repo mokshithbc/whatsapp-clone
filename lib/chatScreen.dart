@@ -25,21 +25,15 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Stack(
           children: [
-            SingleChildScrollView(
-              reverse: true,
-              child: Stack(
-                children: [
-                  Image.network(
-                    'https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png',
-                    fit: BoxFit.fitHeight,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                  ),
-                ],
-              ),
+            Image.network(
+              'https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png',
+              fit: BoxFit.fill,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
             ),
             ChatList1(),
             Column(
