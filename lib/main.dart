@@ -30,6 +30,7 @@ class _WhatsappState extends State<Whatsapp> {
         '/enlargedProfile': (context) => EnlargeProfile(),
         '/newMessage': (context) => NewMessage(),
         '/viewProfile': (context) => ViewProfile(),
+        '/chatbar': (context) => ChatList1(),
       },
     );
   }
